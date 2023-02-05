@@ -1,9 +1,11 @@
 #install requests
 #install bs4
+#install lxml
 from bs4 import BeautifulSoup
 import requests
 import time
 import sqlite3
+import lxml
 
 #for testing
 startTime = time.time()
@@ -25,9 +27,10 @@ url = conn.execute("SELECT * FROM urls")
 
 for rows in url:
     #requests the page
-    r = requests.get(rows[0])
+    session = requests.session()
+    r = session.get(rows[0])
     #creates an object of the page
-    soup = BeautifulSoup(r.content)
+    soup = BeautifulSoup(r.content,'lxml')
 
     #find SKU
     sku = soup.find(class_= 'itemName').get_text()
